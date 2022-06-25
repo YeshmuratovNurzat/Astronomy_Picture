@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.favorite -> {
-                    supportActionBar?.setTitle("Favorite")
+                    supportActionBar?.setTitle("Избранное")
                     fragment = FavoriteFragment()
                     replaceFragment(fragment)
                     true

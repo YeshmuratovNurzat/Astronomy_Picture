@@ -8,13 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.etoolkit.home.databinding.FragmentFavoriteBinding
 import com.etoolkit.home.domian.model.AstronomyPicture
 import com.etoolkit.home.presentions.adapter.AstronomyPictureAdapter
 import com.etoolkit.home.presentions.screen.detailtScreen.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment() {
@@ -23,13 +21,12 @@ class FavoriteFragment : Fragment() {
 
     private lateinit var astronomyPictureAdapter : AstronomyPictureAdapter
 
-    private val viewModel : FavoriteViewModel by activityViewModels<FavoriteViewModel>()
+    private val viewModel : FavoriteViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
         binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
-
 
         return binding.root
 
@@ -37,16 +34,12 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initRecycler()
+        initRecyclerView()
         init()
     }
 
-
-    private fun initRecycler() {
+    private fun initRecyclerView() {
         binding.recyclerView.apply {
-            val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
-            addItemDecoration(decoration)
             astronomyPictureAdapter = AstronomyPictureAdapter()
             adapter = astronomyPictureAdapter
             astronomyPictureAdapter.setOnClick(object : AstronomyPictureAdapter.SetClickListener{
@@ -61,7 +54,7 @@ class FavoriteFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun init() {
-            viewModel.data().observe(viewLifecycleOwner, {
+            viewModel.getAllFavoriteAstronomyPictureList().observe(viewLifecycleOwner, {
                 if (it == null) {
                     binding.progressBar.visibility = View.VISIBLE
                 } else {

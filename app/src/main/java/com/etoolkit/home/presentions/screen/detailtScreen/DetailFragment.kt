@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.etoolkit.home.R
 import com.etoolkit.home.databinding.FragmentDetailBinding
 import com.etoolkit.home.domian.model.AstronomyPicture
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -18,7 +19,7 @@ class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
 
-    private val viewModel: DetailViewModel by activityViewModels<DetailViewModel>()
+    private val viewModel: DetailViewModel by activityViewModels()
 
     private lateinit var youTubePlayerView : YouTubePlayerView
 
@@ -30,8 +31,7 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
-
-    private fun getAstronomyPictureData(astronomyPicture: AstronomyPicture) {
+    private fun setAstronomyPicture(astronomyPicture: AstronomyPicture) {
 
         binding.title.text = astronomyPicture.title.toString()
         binding.description.text = astronomyPicture.explanation.toString()
@@ -40,7 +40,8 @@ class DetailFragment : Fragment() {
         Glide.with(this)
             .load(astronomyPicture.hdurl)
             .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .placeholder(R.drawable.img)
             .into(binding.image)
 
         activity?.title = binding.title.text
@@ -68,8 +69,8 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.detailData.observe(viewLifecycleOwner,{
-            getAstronomyPictureData(it)
+        viewModel.detailAstronomyPictureLiveData.observe(viewLifecycleOwner,{
+            setAstronomyPicture(it)
         })
     }
 }

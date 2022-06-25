@@ -20,6 +20,7 @@ class AstronomyPictureAdapter : RecyclerView.Adapter<AstronomyPictureAdapter.Ast
     private var listDataAstronomyPicture = emptyList<AstronomyPicture>()
     private lateinit var clickListener : SetClickListener
 
+
     class  AstroPictureViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         private val imageUrl = view.findViewById<ImageView>(R.id.image_url)
         private val tvDate = view.findViewById<TextView>(R.id.tvDate)
@@ -27,37 +28,37 @@ class AstronomyPictureAdapter : RecyclerView.Adapter<AstronomyPictureAdapter.Ast
 
         fun bind(astronomyPicture: AstronomyPicture) {
 
-            val translationConfigs = TranslatorOptions.Builder()
-                .setSourceLanguage(TranslateLanguage.ENGLISH)
-                .setTargetLanguage(TranslateLanguage.RUSSIAN)
-                .build()
-
-            val translator = Translation.getClient(translationConfigs)
-
-            if (astronomyPicture.explanation?.isNotEmpty() == true) {
-                translator.downloadModelIfNeeded().addOnSuccessListener {}
-                    .addOnFailureListener {}
-            }
-
-            translator.translate(astronomyPicture.explanation.toString()).addOnSuccessListener {
-                astronomyPicture.explanation = it.toString()
-            }
-                .addOnFailureListener {
-                    it.printStackTrace()
-                }
-            translator.translate(astronomyPicture.title.toString()).addOnSuccessListener {
-                astronomyPicture.title = it
-            }
-                .addOnFailureListener {
-                    it.printStackTrace()
-                }
+//            val translationConfigs = TranslatorOptions.Builder()
+//                .setSourceLanguage(TranslateLanguage.ENGLISH)
+//                .setTargetLanguage(TranslateLanguage.RUSSIAN)
+//                .build()
+//
+//            val translator = Translation.getClient(translationConfigs)
+//
+//            if (astronomyPicture.explanation?.isNotEmpty() == true) {
+//                translator.downloadModelIfNeeded().addOnSuccessListener {}
+//                    .addOnFailureListener {}
+//            }
+//
+//            translator.translate(astronomyPicture.explanation.toString()).addOnSuccessListener {
+//                astronomyPicture.explanation = it.toString()
+//            }
+//                .addOnFailureListener {
+//                    it.printStackTrace()
+//                }
+//            translator.translate(astronomyPicture.title.toString()).addOnSuccessListener {
+//                astronomyPicture.title = it
+//            }
+//                .addOnFailureListener {
+//                    it.printStackTrace()
+//                }
 
             tvDate.text = astronomyPicture.date
             tvTitle.text = astronomyPicture.title
             Glide.with(this.itemView)
                 .load(astronomyPicture.hdurl)
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.img)
                 .into(imageUrl)
 

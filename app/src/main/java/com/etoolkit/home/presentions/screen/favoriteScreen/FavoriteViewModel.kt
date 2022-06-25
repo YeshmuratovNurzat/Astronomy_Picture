@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(var astronomyPictureRepository: AstronomyPictureRepository) : ViewModel() {
 
-    fun data() : LiveData<List<AstronomyPicture>> {
-        return astronomyPictureRepository.getFavoritePicture()
+    fun getAllFavoriteAstronomyPictureList() : LiveData<List<AstronomyPicture>> {
+        return astronomyPictureRepository.getAllFavoriteAstronomyPictureList()
     }
 }

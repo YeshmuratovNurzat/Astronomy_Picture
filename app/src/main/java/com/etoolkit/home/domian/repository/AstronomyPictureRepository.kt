@@ -6,15 +6,15 @@ import com.etoolkit.home.domian.model.AstronomyPicture
 
 interface AstronomyPictureRepository {
 
-    suspend fun getAllPicture(): List<AstronomyPicture>
+    suspend fun getAllAstronomyPictureList(): List<AstronomyPicture>
 
-    fun getFavoritePicture() : LiveData<List<AstronomyPicture>>
+    fun getAllFavoriteAstronomyPictureList() : LiveData<List<AstronomyPicture>>
 
-    suspend fun insertPicture(astronomyPicture: AstronomyPicture)
+    suspend fun insertAstronomyPicture(astronomyPicture: AstronomyPicture)
 
-    suspend fun delete(astronomyPicture: AstronomyPicture)
+    suspend fun deleteAstronomyPicture(astronomyPicture: AstronomyPicture)
 
-    suspend fun getDataFromApiDate(start : String,end : String) : List<AstronomyPicture>
+    suspend fun getAstronomyPictureListFromDate(startDate : String,endDate : String) : List<AstronomyPicture>
 
 
 }

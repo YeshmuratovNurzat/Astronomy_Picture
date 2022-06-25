@@ -14,6 +14,6 @@ interface AstronomyPictureDao {
     suspend fun insertAstronomyPicture(astronomyPicture: AstronomyPicture)
 
     @Delete
-    suspend fun deleteAllPicture(astronomyPicture: AstronomyPicture)
+    suspend fun deleteAstronomyPicture(astronomyPicture: AstronomyPicture)
 
 }

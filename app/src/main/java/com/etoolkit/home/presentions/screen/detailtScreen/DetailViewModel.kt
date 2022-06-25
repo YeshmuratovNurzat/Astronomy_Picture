@@ -13,17 +13,17 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(var astronomyPictureRepository: AstronomyPictureRepository) : ViewModel(){
 
-    val detailData = MutableLiveData<AstronomyPicture>()
+    val detailAstronomyPictureLiveData = MutableLiveData<AstronomyPicture>()
 
     fun insertPicture(astronomyPicture: AstronomyPicture){
         viewModelScope.launch(Dispatchers.IO) {
-            astronomyPictureRepository.insertPicture(astronomyPicture)
+            astronomyPictureRepository.insertAstronomyPicture(astronomyPicture)
         }
     }
 
     fun deletePicture(astronomyPicture: AstronomyPicture){
         viewModelScope.launch(Dispatchers.IO) {
-            astronomyPictureRepository.delete(astronomyPicture)
+            astronomyPictureRepository.deleteAstronomyPicture(astronomyPicture)
         }
     }
 

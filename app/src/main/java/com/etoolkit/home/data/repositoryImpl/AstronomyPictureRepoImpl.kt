@@ -1,6 +1,5 @@
 package com.etoolkit.home.data.repositoryImpl
 
-
 import androidx.lifecycle.LiveData
 import com.etoolkit.home.data.retrofit.AstronomyPictureService
 import com.etoolkit.home.data.room.AstronomyPictureDao
@@ -12,23 +11,23 @@ class AstronomyPictureRepoImpl @Inject constructor(private var astronomyPictureD
                                                    private var astronomyPictureService: AstronomyPictureService)
     : AstronomyPictureRepository{
 
-    override suspend fun getAllPicture(): List<AstronomyPicture> {
-        return astronomyPictureService.getDataFromApi()
+    override suspend fun getAllAstronomyPictureList(): List<AstronomyPicture> {
+        return astronomyPictureService.getAstronomyPictureList()
     }
 
-    override fun getFavoritePicture(): LiveData<List<AstronomyPicture>> {
+    override fun getAllFavoriteAstronomyPictureList(): LiveData<List<AstronomyPicture>> {
         return astronomyPictureDao.getAllAstronomyPicture()
     }
 
-    override suspend fun insertPicture(astronomyPicture: AstronomyPicture) {
+    override suspend fun insertAstronomyPicture(astronomyPicture: AstronomyPicture) {
         astronomyPictureDao.insertAstronomyPicture(astronomyPicture)
     }
 
-    override suspend fun delete(astronomyPicture: AstronomyPicture) {
-        astronomyPictureDao.deleteAllPicture(astronomyPicture)
+    override suspend fun deleteAstronomyPicture(astronomyPicture: AstronomyPicture) {
+        astronomyPictureDao.deleteAstronomyPicture(astronomyPicture)
     }
 
-    override suspend fun getDataFromApiDate(start: String, end: String) : List<AstronomyPicture> {
-        return astronomyPictureService.getDataFromDate(start,end)
+    override suspend fun getAstronomyPictureListFromDate(startDate : String, endDate : String) : List<AstronomyPicture> {
+        return astronomyPictureService.getAstronomyPictureListFromDate(startDate,endDate)
     }
 }

@@ -8,8 +8,6 @@ import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.etoolkit.home.R
 import com.etoolkit.home.databinding.FragmentHomeBinding
 import com.etoolkit.home.domian.model.AstronomyPicture
@@ -29,7 +27,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var astronomyPictureAdapter : AstronomyPictureAdapter
-    private val viewModel : HomeViewModel by viewModels<HomeViewModel>()
+    private val viewModel : HomeViewModel by viewModels()
 
     private var currentSelectedStartDate: Long? = null
     private var currentSelectedEndDate: Long? = null
@@ -45,15 +43,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecycler()
+        initRecyclerView()
         init()
 
     }
 
-    private fun initRecycler() {
+    private fun initRecyclerView() {
         binding.recyclerView.apply {
-            val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
-            addItemDecoration(decoration)
+//            val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
+//            addItemDecoration(decoration)
             astronomyPictureAdapter = AstronomyPictureAdapter()
             adapter = astronomyPictureAdapter
             astronomyPictureAdapter.setOnClick(object : AstronomyPictureAdapter.SetClickListener{
@@ -67,12 +65,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun init() {
-        viewModel.getAllData().observe(this, {
+        viewModel.getAllAstronomyPicture().observe(this, {
             binding.progressBar.visibility = View.GONE
             astronomyPictureAdapter.setListData(it.asReversed())
         })
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.item_menu_activity,menu)
@@ -82,17 +79,16 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.date ->{
-                date()
+                getAstronomyPictureListFromDate()
             }
-
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun date() {
+    private fun getAstronomyPictureListFromDate() {
 
         val builder = MaterialDatePicker.Builder.dateRangePicker()
-            .setTitleText("Select dates")
+            .setTitleText("Select date")
             .setSelection(
                 Pair(
                     MaterialDatePicker.thisMonthInUtcMilliseconds(),
@@ -108,13 +104,9 @@ class HomeFragment : Fragment() {
 
         picker.show(activity?.supportFragmentManager!!, picker.toString())
 
-        picker.addOnCancelListener {
+        picker.addOnCancelListener {}
 
-        }
-
-        picker.addOnNegativeButtonClickListener {
-
-        }
+        picker.addOnNegativeButtonClickListener {}
 
         picker.addOnPositiveButtonClickListener {
 
@@ -134,15 +126,13 @@ class HomeFragment : Fragment() {
             val endDateFormatted: String =
                 endDateTime.format(DateTimeFormatter.ofPattern(datePattern))
 
-            viewModel.getDataFromDateApi(startDateFormatted,endDateFormatted).observe(this,{
+            viewModel.getAstronomyPictureListFromDate(startDateFormatted,endDateFormatted).observe(this,{
                 astronomyPictureAdapter.setListData(it.asReversed())
             })
 
             Toast.makeText(activity?.applicationContext,
                 "$startDateFormatted -- $endDateFormatted",
                 Toast.LENGTH_LONG).show()
-
         }
     }
-
 }

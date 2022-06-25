@@ -13,8 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
-
-    private val viewModel : DetailViewModel by viewModels<DetailViewModel>()
+    private val viewModel : DetailViewModel by viewModels()
     private lateinit var astronomyPicture : AstronomyPicture
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,10 +26,9 @@ class DetailActivity : AppCompatActivity() {
 
         astronomyPicture = bundle!!.getSerializable("astronomyPicture") as AstronomyPicture
 
-        viewModel.detailData.value = astronomyPicture
+        viewModel.detailAstronomyPictureLiveData.value = astronomyPicture
 
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.item_menu, menu)
@@ -40,11 +38,11 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.favorite -> {
-                Toast.makeText(this, "Добавлен в мне нравится", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Добавлен в избранное", Toast.LENGTH_SHORT).show()
                 viewModel.insertPicture(astronomyPicture)
             }
             R.id.delete -> {
-                Toast.makeText(this, "Удалено", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Удалено из избранное", Toast.LENGTH_SHORT).show()
                 viewModel.deletePicture(astronomyPicture)
                 finish()
             }

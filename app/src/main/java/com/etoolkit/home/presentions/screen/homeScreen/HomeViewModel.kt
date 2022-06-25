@@ -7,27 +7,26 @@ import androidx.lifecycle.viewModelScope
 import com.etoolkit.home.domian.model.AstronomyPicture
 import com.etoolkit.home.domian.repository.AstronomyPictureRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(var astronomyPictureRepository: AstronomyPictureRepository) : ViewModel(){
 
-    val getAllAstronomyPictureLiveData = MutableLiveData<List<AstronomyPicture>>()
-    val getDate = MutableLiveData<List<AstronomyPicture>>()
+    private val getAllAstronomyPictureLiveData = MutableLiveData<List<AstronomyPicture>>()
+    private val getDataFromApiDate = MutableLiveData<List<AstronomyPicture>>()
 
-    fun getAllData() : LiveData<List<AstronomyPicture>> {
-        viewModelScope.launch(Dispatchers.Main) {
-            getAllAstronomyPictureLiveData.value = astronomyPictureRepository.getAllPicture()
+    fun getAllAstronomyPicture() : LiveData<List<AstronomyPicture>> {
+        viewModelScope.launch {
+            getAllAstronomyPictureLiveData.value = astronomyPictureRepository.getAllAstronomyPictureList()
         }
         return getAllAstronomyPictureLiveData
     }
 
-    fun getDataFromDateApi(start : String,end : String) : LiveData<List<AstronomyPicture>> {
-        viewModelScope.launch(Dispatchers.Main) {
-            getDate.value = astronomyPictureRepository.getDataFromApiDate(start, end)
+    fun getAstronomyPictureListFromDate(startDate : String,endDate : String) : LiveData<List<AstronomyPicture>> {
+        viewModelScope.launch {
+            getDataFromApiDate.value = astronomyPictureRepository.getAstronomyPictureListFromDate(startDate, endDate)
         }
-        return getDate
+        return getDataFromApiDate
     }
 }
