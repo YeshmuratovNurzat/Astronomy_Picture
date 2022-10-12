@@ -1,4 +1,4 @@
-# Astronomy_Picture
+# Astronomy Picture of the Day
 
     
 # SplashScreen 
